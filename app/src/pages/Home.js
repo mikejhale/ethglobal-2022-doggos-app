@@ -1,7 +1,12 @@
 import React from "react";
-
+import { useAccount } from "wagmi";
+import DogList from "../components/DogList";
 const Home = () => {
-  return <h1>HOME</h1>;
+  const { address, isConnecting, isDisconnected } = useAccount();
+
+  if (isConnecting) return <div>Connecting…</div>;
+  if (isDisconnected) return <div>Disconnected</div>;
+  return <DogList />;
 };
 
 export default Home;

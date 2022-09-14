@@ -27,14 +27,14 @@ const wagmiClient = createClient({
 
 export default function App() {
   return (
-    <ChakraProvider>
-      <WagmiConfig client={wagmiClient}>
-        <RainbowKitProvider chains={chains}>
+    <WagmiConfig client={wagmiClient}>
+      <RainbowKitProvider chains={chains}>
+        <ChakraProvider>
           <Layout>
-            <ConnectButton />
+            <Home />
           </Layout>
-        </RainbowKitProvider>
-      </WagmiConfig>
-    </ChakraProvider>
+        </ChakraProvider>
+      </RainbowKitProvider>
+    </WagmiConfig>
   );
 }

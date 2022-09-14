@@ -4,12 +4,13 @@ import { Box } from "@chakra-ui/react";
 
 const Layout = ({ children }) => {
   return (
-    <Box padding={14}>
-      <section>
-        <Header />
-      </section>
-      <main>{children}</main>
-    </Box>
+    <>
+      <Header />
+      <Box padding={14} minH="100vh" bg="gray.100">
+        <section></section>
+        <main>{children}</main>
+      </Box>
+    </>
   );
 };
 
