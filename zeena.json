@@ -1,0 +1,40 @@
+{
+  "description": "Friendly OpenSea Creature that enjoys long swims in the ocean.",
+  "external_url": "https://www.petfinder.com/dog/zeena-56617179/il/naperville/a-dot-do-dot-pt-pet-shelter-il171/?referrer_id=604314f6-9f81-4516-9e31-771473a7e4e9",
+  "image": "https://nftstorage.link/ipfs/bafkreiah5m2t4oclvfhm5wh4tjv4sov5im3i5ik6bepkczroyhnzp4ovly",
+  "name": "Zeena",
+  "attributes": [
+    {
+      "trait_type": "Primary Breed",
+      "value": "Pit Bull Terrier"
+    },
+    {
+      "trait_type": "Mixed Breed",
+      "value": "Yes"
+    },
+    {
+      "trait_type": "Primary Color",
+      "value": "Brindle"
+    },
+    {
+      "trait_type": "Secondary Color",
+      "value": "White / Cream"
+    },
+    {
+      "trait_type": "Age",
+      "value": "Adult"
+    },
+    {
+      "trait_type": "Gender",
+      "value": "Female"
+    },
+    {
+      "trait_type": "Size",
+      "value": "Medium"
+    },
+    {
+      "trait_type": "Description",
+      "value": "Zeena is about 2 years old and is good with children ages 5 and up. Zeena here is our fun-sized..."
+    }
+  ]
+}

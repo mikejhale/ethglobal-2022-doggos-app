@@ -7,18 +7,9 @@ import {
   Badge,
   useColorModeValue,
   Icon,
-  chakra,
   Tooltip,
   AspectRatio,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
   useDisclosure,
-  Button,
   IconButton,
 } from "@chakra-ui/react";
 import { BsStar, BsStarFill, BsStarHalf } from "react-icons/bs";
