@@ -27,6 +27,10 @@ contract Adopt is ERC721URIStorage, Ownable {
         return adoptionCost;
     }
 
+    function getNFTCost() public view returns (uint256) {
+        return adoptionCost;
+    }
+
     function mintNFT(address recipient, string memory tokenURI)
         public
         returns (uint256)

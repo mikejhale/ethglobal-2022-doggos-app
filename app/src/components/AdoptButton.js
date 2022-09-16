@@ -1,8 +1,14 @@
 import { Button } from "@chakra-ui/react";
+import { getAnimalMetadataQuery } from "../utils/metadata";
 
 const AdoptButton = (props) => {
   const adoptDog = () => {
-    console.log(props.id);
+    const animalMetadataQuery = getAnimalMetadataQuery(
+      process.env.REACT_APP_ANIMAL_TRAITS_TABLE_NAME,
+      props.id
+    );
+
+    console.log(animalMetadataQuery);
   };
 
   return (

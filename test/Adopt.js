@@ -1,43 +1,63 @@
 const { expect } = require("chai");
 const { loadFixture } = require("@nomicfoundation/hardhat-network-helpers");
 
+require("dotenv").config();
+
+const { adoptABI } = require("../artifacts/contracts/Adopt.sol/Adopt.json");
+const { hexStripZeros } = require("ethers/lib/utils");
+//const { ethers } = require("ethers");
+
 describe("Adopt contract", async function () {
   const _name = "Adopt";
-  const _symbol = "Doggos";
+  const _symbol = "DOGGOS";
   const _tokenUri =
-    "https://nftstorage.link/ipfs/bafkreieevqbpdoxeu6yqj35xdz5gnjtmjxgurck34kl7fldzfrgdpjrvbu";
+    "https://bafkreib5t4ekjpzzimyiwclaovwdeacriay5ugq4zo6w64ckzus5e55hx4.ipfs.nftstorage.link/";
+  const recipient = "0x44D54D4Df70054d674F86E077C464623a83f4114";
+  const adoptAddressGoerli = "0x750a152Ed5ea3499769DDa973F599D27d56AeaBc";
 
   async function deployTokenFixture() {
+    //const [owner] = await ethers.getSigners();
+
     const [owner, account1, ...otheraccounts] = await ethers.getSigners();
 
-    const Adopt = await ethers.getContractFactory("Adopt");
-    const hardhatAdopt = await Adopt.deploy(_name, _symbol);
-    await hardhatAdopt.deployed();
+    // const Adopt = await ethers.getContractFactory("Adopt");
+    // const hardhatAdopt = await Adopt.deploy(_name, _symbol);
+    // await hardhatAdopt.deployed();
 
-    // Fixtures can return anything you consider useful for your tests
+    const hardhatAdopt = await hre.ethers.getContractAt(
+      "Adopt",
+      adoptAddressGoerli
+    );
+
     return { hardhatAdopt, owner, account1 };
   }
 
   // You can nest describe calls to create subsections.
 
-  it("Should have the correct name and symbol ", async function () {
-    const { hardhatAdopt } = await loadFixture(deployTokenFixture);
+  // it("Should have the correct name and symbol ", async function () {
+  //   //const { hardhatAdopt } = await loadFixture(deployTokenFixture);
+  //   const { hardhatAdopt, owner } = await deployTokenFixture();
 
-    expect(await hardhatAdopt.name()).to.equal(_name);
-    expect(await hardhatAdopt.symbol()).to.equal(_symbol);
-  });
+  //   expect(await hardhatAdopt.name()).to.equal(_name);
+  //   expect(await hardhatAdopt.symbol()).to.equal(_symbol);
+  // });
 
   it("Should mint a token with token ID 1 & 2 to account1", async function () {
-    const { hardhatAdopt, account1 } = await loadFixture(deployTokenFixture);
+    //const { hardhatAdopt, account1 } = await loadFixture(deployTokenFixture);
+    const { hardhatAdopt, owner } = await deployTokenFixture();
 
-    const address1 = account1.address;
-    await hardhatAdopt.mintNFT(address1, _tokenUri);
-    expect(await hardhatAdopt.ownerOf(1)).to.equal(address1);
+    console.log(await hardhatAdopt.balanceOf(recipient));
 
-    await hardhatAdopt.mintNFT(address1, _tokenUri);
-    expect(await hardhatAdopt.ownerOf(2)).to.equal(address1);
+    //const address1 = account1.address;
+    //await hardhatAdopt.mintNFT(recipient, _tokenUri);
+    expect(await hardhatAdopt.ownerOf(1)).to.equal(recipient);
 
-    expect(await hardhatAdopt.balanceOf(address1)).to.equal(2);
+    //await hardhatAdopt.mintNFT(recipient, _tokenUri);
+    expect(await hardhatAdopt.ownerOf(2)).to.equal(recipient);
+
+    console.log(await hardhatAdopt.balanceOf(recipient));
+
+    //expect(await hardhatAdopt.balanceOf(recipient)).to.equal("2");
   });
 
   /*
