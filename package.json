@@ -21,6 +21,7 @@
   "homepage": "https://github.com/mikejhale/ethglobal-2022-doggos-app#readme",
   "dependencies": {
     "@openzeppelin/contracts": "^4.7.3",
+    "chai-bignumber": "^3.0.0",
     "dotenv": "^16.0.2"
   }
 }

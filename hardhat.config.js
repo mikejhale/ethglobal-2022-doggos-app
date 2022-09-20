@@ -1,5 +1,9 @@
 require("@nomicfoundation/hardhat-toolbox");
 require("@openzeppelin/hardhat-upgrades");
+const chai = require("chai");
+const { solidity } = require("ethereum-waffle");
+
+chai.use(solidity);
 
 require("dotenv").config();
 

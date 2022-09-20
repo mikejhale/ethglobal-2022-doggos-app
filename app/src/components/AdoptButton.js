@@ -1,7 +1,8 @@
 import { Button, Tooltip } from "@chakra-ui/react";
-import { useAccount } from "wagmi";
+import { useAccount, useSigner } from "wagmi";
 import { getAnimalMetadataQuery } from "../utils/metadata";
 import { useContract, useProvider } from "wagmi";
+import * as ethers from "ethers";
 import adoptABI from "../abi/Adopt.json";
 
 import { useContractWrite, usePrepareContractWrite } from "wagmi";
@@ -9,10 +10,11 @@ import { useContractWrite, usePrepareContractWrite } from "wagmi";
 const AdoptButton = (props) => {
   const { isConnected } = useAccount();
   const provider = useProvider();
+  const [{ data: signData }, getSigner] = useSigner();
   const contract = useContract({
     addressOrName: "0x750a152Ed5ea3499769DDa973F599D27d56AeaBc",
     contractInterface: adoptABI.abi,
-    signerOrProvider: provider,
+    signerOrProvider: getSigner(),
   });
 
   // get metadata
@@ -29,8 +31,12 @@ const AdoptButton = (props) => {
     addressOrName: "0x750a152Ed5ea3499769DDa973F599D27d56AeaBc",
     contractInterface: adoptABI.abi,
     functionName: "mintNFT",
+    overrides: {
+      value: ethers.utils.parseEther("0.15"),
+    },
     args: ["0x44D54D4Df70054d674F86E077C464623a83f4114", tokenUri],
   });
+
   const { data, isLoading, isSuccess, write } = useContractWrite({
     ...config,
     onSuccess(data) {
@@ -42,13 +48,9 @@ const AdoptButton = (props) => {
   });
 
   const adoptDog = async () => {
-    const results = await write();
-    console.log(results);
-    // const nft = await contract.mintNFT(
-    //
-    // );
-    // //console.log(await contract.getCost());
-    // console.log(nft);
+    console.log(data);
+    //const results = await write.();
+    //console.log(results);
   };
 
   return (

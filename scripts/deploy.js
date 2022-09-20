@@ -5,10 +5,8 @@ async function main() {
 
   console.log("Deploying contracts with the account:", deployer.address);
 
-  //console.log("Account balance:", (await deployer.getBalance()).toString());
-
   const Adopt = await ethers.getContractFactory("Adopt");
-  const adopt = await Adopt.deploy("Adopt", "DOGGOS");
+  const adopt = await Adopt.deploy("Adopt", "DOGGOS", payees, shares);
 
   console.log("Adopt address:", adopt.address);
 }
