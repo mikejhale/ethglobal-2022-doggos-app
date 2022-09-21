@@ -13,7 +13,7 @@ describe("Adopt contract", async function () {
   const _tokenUri =
     "https://bafkreib5t4ekjpzzimyiwclaovwdeacriay5ugq4zo6w64ckzus5e55hx4.ipfs.nftstorage.link/";
   const recipient = "0x44D54D4Df70054d674F86E077C464623a83f4114";
-  const adoptAddressGoerli = "0x750a152Ed5ea3499769DDa973F599D27d56AeaBc";
+  const adoptAddressGoerli = "0xE32B7aBFbc03fA5a6955a5C6667a45e8cc03939E";
   const payees = [
     "0x0D5CC855b24e3D7f4430bBfD52b04C9d594ACE31",
     "0x44D54D4Df70054d674F86E077C464623a83f4114",
@@ -21,13 +21,7 @@ describe("Adopt contract", async function () {
   const shares = ["90", "10"];
 
   async function deployTokenFixture() {
-    //const [owner] = await ethers.getSigners();
-
     const [owner, account1, ...otheraccounts] = await ethers.getSigners();
-
-    // const Adopt = await ethers.getContractFactory("Adopt");
-    // const hardhatAdopt = await Adopt.deploy(_name, _symbol);
-    // await hardhatAdopt.deployed();
 
     const hardhatAdopt = await hre.ethers.getContractAt(
       "Adopt",
@@ -51,46 +45,59 @@ describe("Adopt contract", async function () {
   // You can nest describe calls to create subsections.
 
   it("Should have the correct name and symbol ", async function () {
-    const { hardhatAdopt } = await loadFixture(deployLocalTokenFixture);
-    //const { hardhatAdopt, owner } = await deployTokenFixture();
+    //const { hardhatAdopt } = await loadFixture(deployLocalTokenFixture);
+    const { hardhatAdopt, owner } = await deployTokenFixture();
 
     expect(await hardhatAdopt.name()).to.equal(_name);
     expect(await hardhatAdopt.symbol()).to.equal(_symbol);
   });
 
   it("Org Wallet Share should be 90% ", async function () {
-    const { hardhatAdopt } = await loadFixture(deployLocalTokenFixture);
+    //const { hardhatAdopt } = await loadFixture(deployLocalTokenFixture);
+    const { hardhatAdopt } = await deployTokenFixture();
+
     expect(await hardhatAdopt.shares(payees[0])).to.equal(90);
   });
 
+  /*
+
+
   it("Dev Wallet Share should be 10% ", async function () {
     const { hardhatAdopt } = await loadFixture(deployLocalTokenFixture);
+    //const { hardhatAdopt } = await deployTokenFixture();
+
     expect(await hardhatAdopt.shares(payees[1])).to.equal(10);
   });
 
-  /*
   it("Should mint a token with token ID 1 & 2 to account1", async function () {
-    const { hardhatAdopt, account1 } = await loadFixture(
-      deployLocalTokenFixture
-    );
-    //const { hardhatAdopt, owner } = await deployTokenFixture();
+    // const { hardhatAdopt, account1 } = await loadFixture(
+    //   deployLocalTokenFixture
+    // );
+    const { hardhatAdopt, owner } = await deployTokenFixture();
 
-    console.log(await hardhatAdopt.balanceOf(recipient));
-
-    //const address1 = account1.address;
     await hardhatAdopt.mintNFT(recipient, _tokenUri, {
       value: "10000000000000000",
     });
+
+    await hardhatAdopt.mintNFT(recipient, _tokenUri, {
+      value: "10000000000000000",
+    });
+
     expect(await hardhatAdopt.ownerOf(1)).to.equal(recipient);
-
-    //await hardhatAdopt.mintNFT(recipient, _tokenUri);
-    //expect(await hardhatAdopt.ownerOf(2)).to.equal(recipient);
-
-    console.log(await hardhatAdopt.balanceOf(recipient));
-
-    //expect(await hardhatAdopt.balanceOf(recipient)).to.equal("2");
   });
-*/
+
+  it("Should move 90% of payment to Org Wallet", async function () {
+    // const { hardhatAdopt, account1 } = await loadFixture(
+    //   deployLocalTokenFixture
+    // );
+    const { hardhatAdopt } = await deployTokenFixture();
+
+    const orgWalletBalance = await hardhatAdopt["releasable(address)"](
+      payees[0]
+    );
+    console.log(orgWalletBalance);
+  });
+  */
 
   /*
   it("Get the default cost of minting", async function () {

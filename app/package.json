@@ -8,7 +8,7 @@
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
     "@rainbow-me/rainbowkit": "^0.5.2",
-    "@tableland/sdk": "^3.1.1",
+    "@tableland/sdk": "3.1.2",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.0.0",
     "@testing-library/user-event": "^13.2.1",

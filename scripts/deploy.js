@@ -1,5 +1,11 @@
 const hre = require("hardhat");
 
+const payees = [
+  "0x0D5CC855b24e3D7f4430bBfD52b04C9d594ACE31",
+  "0x44D54D4Df70054d674F86E077C464623a83f4114",
+];
+const shares = ["90", "10"];
+
 async function main() {
   const [deployer] = await ethers.getSigners();
 

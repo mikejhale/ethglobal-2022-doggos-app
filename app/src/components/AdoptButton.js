@@ -1,20 +1,22 @@
 import { Button, Tooltip } from "@chakra-ui/react";
-import { useAccount, useSigner } from "wagmi";
+import { useAccount } from "wagmi";
 import { getAnimalMetadataQuery } from "../utils/metadata";
 import { useContract, useProvider } from "wagmi";
-import * as ethers from "ethers";
 import adoptABI from "../abi/Adopt.json";
 
-import { useContractWrite, usePrepareContractWrite } from "wagmi";
+import {
+  useContractWrite,
+  usePrepareContractWrite,
+  useContractRead,
+} from "wagmi";
 
 const AdoptButton = (props) => {
   const { isConnected } = useAccount();
   const provider = useProvider();
-  const [{ data: signData }, getSigner] = useSigner();
   const contract = useContract({
-    addressOrName: "0x750a152Ed5ea3499769DDa973F599D27d56AeaBc",
+    addressOrName: process.env.REACT_APP_CONTRACT_ADDRESS,
     contractInterface: adoptABI.abi,
-    signerOrProvider: getSigner(),
+    signerOrProvider: provider,
   });
 
   // get metadata
@@ -27,16 +29,13 @@ const AdoptButton = (props) => {
     metadataSql
   )}`;
 
+  /*
   const { config } = usePrepareContractWrite({
-    addressOrName: "0x750a152Ed5ea3499769DDa973F599D27d56AeaBc",
+    addressOrName: process.env.REACT_APP_CONTRACT_ADDRESS,
     contractInterface: adoptABI.abi,
     functionName: "mintNFT",
-    overrides: {
-      value: ethers.utils.parseEther("0.15"),
-    },
     args: ["0x44D54D4Df70054d674F86E077C464623a83f4114", tokenUri],
   });
-
   const { data, isLoading, isSuccess, write } = useContractWrite({
     ...config,
     onSuccess(data) {
@@ -46,11 +45,21 @@ const AdoptButton = (props) => {
       console.log("error", error);
     },
   });
-
+*/
   const adoptDog = async () => {
-    console.log(data);
-    //const results = await write.();
-    //console.log(results);
+    // const totals = await contract.releaseable();
+    //const results = await write();
+    //console.log(contract.functions);
+    console.log(
+      await contract["totalReleased(address)"](
+        "0x0D5CC855b24e3D7f4430bBfD52b04C9d594ACE31"
+      )
+    );
+    // const nft = await contract.mintNFT(
+    //
+    // );
+    // //console.log(await contract.getCost());
+    // console.log(nft);
   };
 
   return (
