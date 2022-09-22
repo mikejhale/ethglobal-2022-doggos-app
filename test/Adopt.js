@@ -59,17 +59,14 @@ describe("Adopt contract", async function () {
     expect(await hardhatAdopt.shares(payees[0])).to.equal(90);
   });
 
-  /*
-
-
   it("Dev Wallet Share should be 10% ", async function () {
-    const { hardhatAdopt } = await loadFixture(deployLocalTokenFixture);
-    //const { hardhatAdopt } = await deployTokenFixture();
+    //const { hardhatAdopt } = await loadFixture(deployLocalTokenFixture);
+    const { hardhatAdopt } = await deployTokenFixture();
 
     expect(await hardhatAdopt.shares(payees[1])).to.equal(10);
   });
 
-  it("Should mint a token with token ID 1 & 2 to account1", async function () {
+  it("Should mint a token with token ID to recipent", async function () {
     // const { hardhatAdopt, account1 } = await loadFixture(
     //   deployLocalTokenFixture
     // );
@@ -79,17 +76,10 @@ describe("Adopt contract", async function () {
       value: "10000000000000000",
     });
 
-    await hardhatAdopt.mintNFT(recipient, _tokenUri, {
-      value: "10000000000000000",
-    });
-
-    expect(await hardhatAdopt.ownerOf(1)).to.equal(recipient);
+    expect(await hardhatAdopt.ownerOf(4)).to.equal(recipient);
   });
 
   it("Should move 90% of payment to Org Wallet", async function () {
-    // const { hardhatAdopt, account1 } = await loadFixture(
-    //   deployLocalTokenFixture
-    // );
     const { hardhatAdopt } = await deployTokenFixture();
 
     const orgWalletBalance = await hardhatAdopt["releasable(address)"](
@@ -97,18 +87,4 @@ describe("Adopt contract", async function () {
     );
     console.log(orgWalletBalance);
   });
-  */
-
-  /*
-  it("Get the default cost of minting", async function () {
-    const { hardhatAdopt } = await loadFixture(deployTokenFixture);
-    expect(await hardhatAdopt.getCost()).to.equal("10000000000000000");
-  });
-
-  it("Updates adoptionCost (Owner only)", async function () {
-    const { hardhatAdopt } = await loadFixture(deployTokenFixture);
-    await hardhatAdopt.updateCost("20000000000000000");
-    expect(await hardhatAdopt.getCost()).to.equal("20000000000000000");
-  });
-  */
 });

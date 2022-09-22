@@ -1,10 +1,22 @@
 import { React, useEffect, useState } from "react";
 import * as tableland from "@tableland/sdk";
+import { useContractRead } from "wagmi";
+import adoptABI from "../abi/Adopt.json";
 import DogCard from "./DogCard";
 import { Flex } from "@chakra-ui/react";
 
 const DogList = () => {
   const [dogs, setDogs] = useState([]);
+
+  const { data, isError, isLoading } = useContractRead({
+    addressOrName: process.env.REACT_APP_CONTRACT_ADDRESS,
+    contractInterface: adoptABI.abi,
+    functionName: "getCost",
+  });
+
+  useEffect(() => {
+    //console.log(data);
+  }, [data]);
 
   useEffect(() => {
     const getDogs = async () => {
@@ -48,7 +60,7 @@ const DogList = () => {
   return (
     <Flex wrap="wrap" direction="row" justifyContent="center">
       {dogs.map((d) => {
-        return <DogCard {...d} key={d.id} />;
+        return <DogCard {...d} key={d.id} price={data.toString()} />;
       })}
     </Flex>
   );

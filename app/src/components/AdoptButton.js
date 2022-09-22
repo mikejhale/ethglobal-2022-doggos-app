@@ -1,7 +1,8 @@
+import { useEffect, useState } from "react";
 import { Button, Tooltip } from "@chakra-ui/react";
-import { useAccount } from "wagmi";
 import { getAnimalMetadataQuery } from "../utils/metadata";
-import { useContract, useProvider } from "wagmi";
+import { useAccount, useContract, useProvider } from "wagmi";
+import * as ethers from "ethers";
 import adoptABI from "../abi/Adopt.json";
 
 import {
@@ -11,13 +12,14 @@ import {
 } from "wagmi";
 
 const AdoptButton = (props) => {
+  //const [writeMethod, setWriteMethod] = useState(null);
   const { isConnected } = useAccount();
   const provider = useProvider();
-  const contract = useContract({
-    addressOrName: process.env.REACT_APP_CONTRACT_ADDRESS,
-    contractInterface: adoptABI.abi,
-    signerOrProvider: provider,
-  });
+  // const contract = useContract({
+  //   addressOrName: process.env.REACT_APP_CONTRACT_ADDRESS,
+  //   contractInterface: adoptABI.abi,
+  //   signerOrProvider: provider,
+  // });
 
   // get metadata
   const metadataSql = getAnimalMetadataQuery(
@@ -29,37 +31,35 @@ const AdoptButton = (props) => {
     metadataSql
   )}`;
 
-  /*
   const { config } = usePrepareContractWrite({
     addressOrName: process.env.REACT_APP_CONTRACT_ADDRESS,
     contractInterface: adoptABI.abi,
     functionName: "mintNFT",
     args: ["0x44D54D4Df70054d674F86E077C464623a83f4114", tokenUri],
+    overrides: {
+      value: props.price,
+    },
   });
-  const { data, isLoading, isSuccess, write } = useContractWrite({
+
+  const {
+    data,
+    isLoading,
+    isSuccess,
+    write: writeMint,
+  } = useContractWrite({
     ...config,
     onSuccess(data) {
       console.log("Success", data);
     },
     onError(error) {
       console.log("error", error);
+      props.setAdopted(false);
     },
   });
-*/
+
   const adoptDog = async () => {
-    // const totals = await contract.releaseable();
-    //const results = await write();
-    //console.log(contract.functions);
-    console.log(
-      await contract["totalReleased(address)"](
-        "0x0D5CC855b24e3D7f4430bBfD52b04C9d594ACE31"
-      )
-    );
-    // const nft = await contract.mintNFT(
-    //
-    // );
-    // //console.log(await contract.getCost());
-    // console.log(nft);
+    props.setAdopted(true);
+    const results = await writeMint();
   };
 
   return (

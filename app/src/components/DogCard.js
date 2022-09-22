@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Flex,
   Circle,
@@ -12,17 +12,29 @@ import {
   useDisclosure,
   IconButton,
 } from "@chakra-ui/react";
-import { BsStar, BsStarFill, BsStarHalf } from "react-icons/bs";
+import * as ethers from "ethers";
 import { FaDog, FaEthereum } from "react-icons/fa";
 import DogTraits from "./DogTraits";
 import AdoptButton from "./AdoptButton";
 
 const DogCard = (props) => {
   const [traitsOpen, setTraitsOpen] = useState(false);
+  const [isAdopted, setisAdopted] = useState(false);
+  const [filter, setFilter] = useState("none");
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const setAdopted = (adopted) => {
+    setisAdopted(adopted);
+  };
+
+  useEffect(() => {
+    if (isAdopted) {
+      setFilter("grayscale(100%)");
+    }
+  }, [isAdopted]);
+
   return (
-    <Flex p={4}>
+    <Flex p={4} alignItems="flex-start">
       <Box
         bg={useColorModeValue("white", "gray.800")}
         maxW="sm"
@@ -46,14 +58,19 @@ const DogCard = (props) => {
             src={props.image_url}
             alt={`Picture of ${props.name}`}
             roundedTop="lg"
+            style={{ filter: filter }}
           />
         </AspectRatio>
 
         <Box p="6">
           <Box d="flex" alignItems="baseline">
-            {!props.minted && (
+            {!props.minted && !isAdopted ? (
               <Badge rounded="full" px="2" fontSize="0.8em" colorScheme="green">
                 Adoptable
+              </Badge>
+            ) : (
+              <Badge rounded="full" px="2" fontSize="0.8em" colorScheme="gray">
+                Adopted!
               </Badge>
             )}
           </Box>
@@ -91,11 +108,18 @@ const DogCard = (props) => {
             <DogTraits {...props} isOpen={isOpen} onClose={onClose} />
           </Flex>
           <Flex alignItems="center">
-            0.1
+            {ethers.utils.formatEther(props.price)}
             <Icon as={FaEthereum} />
           </Flex>
 
-          <AdoptButton id={props.id} name={props.name} />
+          {!props.minted && !isAdopted ? (
+            <AdoptButton
+              id={props.id}
+              name={props.name}
+              price={props.price}
+              setAdopted={setAdopted}
+            />
+          ) : null}
         </Box>
       </Box>
     </Flex>
