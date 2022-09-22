@@ -3,6 +3,7 @@ import { Button, Tooltip } from "@chakra-ui/react";
 import { getAnimalMetadataQuery } from "../utils/metadata";
 import { useAccount, useContract, useProvider } from "wagmi";
 import * as ethers from "ethers";
+import { adoptAnimal } from "../utils/animal";
 import adoptABI from "../abi/Adopt.json";
 
 import {
@@ -12,7 +13,7 @@ import {
 } from "wagmi";
 
 const AdoptButton = (props) => {
-  //const [writeMethod, setWriteMethod] = useState(null);
+  const [isMinting, setIsMinting] = useState(false);
   const { isConnected } = useAccount();
   const provider = useProvider();
   // const contract = useContract({
@@ -49,17 +50,21 @@ const AdoptButton = (props) => {
   } = useContractWrite({
     ...config,
     onSuccess(data) {
-      console.log("Success", data);
+      adoptAnimal(props.id);
+    },
+    onSettled(data, error) {
+      props.isMinting(false);
+      setIsMinting(false);
     },
     onError(error) {
       console.log("error", error);
-      props.setAdopted(false);
     },
   });
 
   const adoptDog = async () => {
-    props.setAdopted(true);
-    const results = await writeMint();
+    setIsMinting(true);
+    props.isMinting(true);
+    writeMint();
   };
 
   return (
@@ -70,7 +75,7 @@ const AdoptButton = (props) => {
         isDisabled={isConnected}
       >
         <Button
-          disabled={!isConnected}
+          disabled={!isConnected || isMinting}
           onClick={adoptDog}
           mt={10}
           w={"full"}

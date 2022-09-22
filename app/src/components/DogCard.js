@@ -19,22 +19,56 @@ import AdoptButton from "./AdoptButton";
 
 const DogCard = (props) => {
   const [traitsOpen, setTraitsOpen] = useState(false);
-  const [isAdopted, setisAdopted] = useState(false);
+  const [isMinted, setIsMinted] = useState(Boolean(props.minted));
+  const [isMinting, setIsMinting] = useState(false);
   const [filter, setFilter] = useState("none");
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const setAdopted = (adopted) => {
-    setisAdopted(adopted);
-  };
+  // const setMinted = () => {
+  //   setIsMinted(true);
+  // };
 
-  useEffect(() => {
-    if (isAdopted) {
-      setFilter("grayscale(100%)");
-    }
-  }, [isAdopted]);
+  // if (props.minted) {
+  //   setFilter("grayscale(100%)");
+  // }
+
+  // useEffect(() => {
+  //   if (isAdopted) {
+  //     setFilter("grayscale(100%)");
+  //   } else {
+  //     setFilter("none");
+  //   }
+  // }, [isAdopted]);
+
+  let badge = null;
+  if (props.minted) {
+    badge = (
+      <Badge rounded="full" px="2" fontSize="0.8em" colorScheme="yellow">
+        Aready minted!
+      </Badge>
+    );
+  } else if (isMinted) {
+    badge = (
+      <Badge rounded="full" px="2" fontSize="0.8em" colorScheme="gray">
+        Adopted!
+      </Badge>
+    );
+  } else if (isMinting) {
+    badge = (
+      <Badge rounded="full" px="2" fontSize="0.8em" colorScheme="blue">
+        Minting...
+      </Badge>
+    );
+  } else {
+    badge = (
+      <Badge rounded="full" px="2" fontSize="0.8em" colorScheme="green">
+        Adoptable
+      </Badge>
+    );
+  }
 
   return (
-    <Flex p={4} alignItems="flex-start">
+    <Flex p={4} alignItems="flex-start" id={props.id}>
       <Box
         bg={useColorModeValue("white", "gray.800")}
         maxW="sm"
@@ -64,15 +98,7 @@ const DogCard = (props) => {
 
         <Box p="6">
           <Box d="flex" alignItems="baseline">
-            {!props.minted && !isAdopted ? (
-              <Badge rounded="full" px="2" fontSize="0.8em" colorScheme="green">
-                Adoptable
-              </Badge>
-            ) : (
-              <Badge rounded="full" px="2" fontSize="0.8em" colorScheme="gray">
-                Adopted!
-              </Badge>
-            )}
+            {badge}
           </Box>
           <Flex mt="1" justifyContent="space-between" alignContent="center">
             <Box
@@ -112,12 +138,13 @@ const DogCard = (props) => {
             <Icon as={FaEthereum} />
           </Flex>
 
-          {!props.minted && !isAdopted ? (
+          {!props.minted && props.status !== "adopted" ? (
             <AdoptButton
               id={props.id}
               name={props.name}
               price={props.price}
-              setAdopted={setAdopted}
+              setIsMinted={setIsMinted}
+              isMinting={setIsMinting}
             />
           ) : null}
         </Box>
