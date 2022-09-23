@@ -44,6 +44,7 @@ describe("Adopt contract", async function () {
 
   // You can nest describe calls to create subsections.
 
+  /*
   it("Should have the correct name and symbol ", async function () {
     //const { hardhatAdopt } = await loadFixture(deployLocalTokenFixture);
     const { hardhatAdopt, owner } = await deployTokenFixture();
@@ -65,7 +66,17 @@ describe("Adopt contract", async function () {
 
     expect(await hardhatAdopt.shares(payees[1])).to.equal(10);
   });
+  */
 
+  it("Should return total earnings", async function () {
+    //const { hardhatAdopt } = await loadFixture(deployLocalTokenFixture);
+    const { hardhatAdopt } = await deployTokenFixture();
+
+    console.log(await hardhatAdopt.getTotalEarnings(payees[0]));
+    //expect(await hardhatAdopt.getTotalEarnings(payees[0])).to.be.greaterThan(0);
+  });
+
+  /*
   it("Should mint a token with token ID to recipent", async function () {
     // const { hardhatAdopt, account1 } = await loadFixture(
     //   deployLocalTokenFixture
@@ -87,4 +98,5 @@ describe("Adopt contract", async function () {
     );
     console.log(orgWalletBalance);
   });
+  */
 });

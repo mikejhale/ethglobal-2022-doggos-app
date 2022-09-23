@@ -11,8 +11,8 @@ import {
   PopoverTrigger,
   PopoverContent,
   useColorModeValue,
-  useBreakpointValue,
   useDisclosure,
+  Heading,
 } from "@chakra-ui/react";
 import {
   HamburgerIcon,
@@ -58,7 +58,7 @@ export default function WithSubnavigation() {
           <Icon boxSize={12}>
             <DogHeart />
           </Icon>
-
+          <Heading pl={4}>Doggos</Heading>
           <Flex display={{ base: "none", md: "flex" }} ml={10}>
             <DesktopNav />
           </Flex>

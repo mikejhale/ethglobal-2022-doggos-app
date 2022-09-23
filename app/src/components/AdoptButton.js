@@ -1,26 +1,15 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button, Tooltip } from "@chakra-ui/react";
 import { getAnimalMetadataQuery } from "../utils/metadata";
-import { useAccount, useContract, useProvider } from "wagmi";
-import * as ethers from "ethers";
+import { useAccount } from "wagmi";
 import { adoptAnimal } from "../utils/animal";
 import adoptABI from "../abi/Adopt.json";
 
-import {
-  useContractWrite,
-  usePrepareContractWrite,
-  useContractRead,
-} from "wagmi";
+import { useContractWrite, usePrepareContractWrite } from "wagmi";
 
 const AdoptButton = (props) => {
   const [isMinting, setIsMinting] = useState(false);
-  const { isConnected } = useAccount();
-  const provider = useProvider();
-  // const contract = useContract({
-  //   addressOrName: process.env.REACT_APP_CONTRACT_ADDRESS,
-  //   contractInterface: adoptABI.abi,
-  //   signerOrProvider: provider,
-  // });
+  const { isConnected, address } = useAccount();
 
   // get metadata
   const metadataSql = getAnimalMetadataQuery(
@@ -36,18 +25,13 @@ const AdoptButton = (props) => {
     addressOrName: process.env.REACT_APP_CONTRACT_ADDRESS,
     contractInterface: adoptABI.abi,
     functionName: "mintNFT",
-    args: ["0x44D54D4Df70054d674F86E077C464623a83f4114", tokenUri],
+    args: [address, tokenUri],
     overrides: {
       value: props.price,
     },
   });
 
-  const {
-    data,
-    isLoading,
-    isSuccess,
-    write: writeMint,
-  } = useContractWrite({
+  const { write: writeMint } = useContractWrite({
     ...config,
     onSuccess(data) {
       adoptAnimal(props.id);

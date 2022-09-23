@@ -1,4 +1,4 @@
-import { HStack, Text, Flex } from "@chakra-ui/react";
+import { HStack, Text } from "@chakra-ui/react";
 
 const DogTraitLabel = ({ label, value }) => {
   return (

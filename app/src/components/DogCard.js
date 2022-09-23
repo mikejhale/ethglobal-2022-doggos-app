@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Flex,
   Circle,
@@ -18,27 +18,10 @@ import DogTraits from "./DogTraits";
 import AdoptButton from "./AdoptButton";
 
 const DogCard = (props) => {
-  const [traitsOpen, setTraitsOpen] = useState(false);
   const [isMinted, setIsMinted] = useState(Boolean(props.minted));
   const [isMinting, setIsMinting] = useState(false);
-  const [filter, setFilter] = useState("none");
+  //const [filter, setFilter] = useState("none");
   const { isOpen, onOpen, onClose } = useDisclosure();
-
-  // const setMinted = () => {
-  //   setIsMinted(true);
-  // };
-
-  // if (props.minted) {
-  //   setFilter("grayscale(100%)");
-  // }
-
-  // useEffect(() => {
-  //   if (isAdopted) {
-  //     setFilter("grayscale(100%)");
-  //   } else {
-  //     setFilter("none");
-  //   }
-  // }, [isAdopted]);
 
   let badge = null;
   if (props.minted) {
@@ -92,7 +75,9 @@ const DogCard = (props) => {
             src={props.image_url}
             alt={`Picture of ${props.name}`}
             roundedTop="lg"
-            style={{ filter: filter }}
+            style={{
+              filter: props.status === "adopted" ? "grayscale(100%)" : "none",
+            }}
           />
         </AspectRatio>
 

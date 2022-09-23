@@ -8,7 +8,7 @@ import { Flex } from "@chakra-ui/react";
 const DogList = () => {
   const [dogs, setDogs] = useState([]);
 
-  const { data, isError, isLoading } = useContractRead({
+  const { data } = useContractRead({
     addressOrName: process.env.REACT_APP_CONTRACT_ADDRESS,
     contractInterface: adoptABI.abi,
     functionName: "getCost",
