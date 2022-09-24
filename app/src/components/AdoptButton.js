@@ -34,7 +34,7 @@ const AdoptButton = (props) => {
   const { write: writeMint } = useContractWrite({
     ...config,
     onSuccess(data) {
-      adoptAnimal(props.id);
+      //adoptAnimal(props.id);
     },
     onSettled(data, error) {
       props.isMinting(false);
@@ -48,7 +48,8 @@ const AdoptButton = (props) => {
   const adoptDog = async () => {
     setIsMinting(true);
     props.isMinting(true);
-    writeMint();
+    //await writeMint();
+    adoptAnimal(props.id);
   };
 
   return (
